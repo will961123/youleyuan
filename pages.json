@@ -1,0 +1,56 @@
+{
+	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+		{
+			"path": "pages/index/index",
+			"style": {
+				"navigationBarTitleText": "首页"
+			}
+		}, {
+			"path": "pages/my/my",
+			"style": {
+				"navigationBarTitleText": "我的"
+			}
+		}
+	    ,{
+            "path" : "pages/my/myCollection",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/my/myFooter",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/my/feedBack",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/my/aboutUs",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/index/goodsDetail",
+            "style" : {}
+        }
+    ],
+	"tabBar": {
+		"color": "#2C405A",
+		"selectedColor": "#007AFF",
+		"list": [{
+			"iconPath": "static/logo.png",
+			"selectedIconPath": "static/logo.png",
+			"pagePath": "pages/index/index",
+			"text":"首页"
+		}, {
+			"iconPath": "static/logo.png",
+			"selectedIconPath": "static/logo.png",
+			"pagePath": "pages/my/my",
+			"text":"我的"
+		}]
+	},
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "游乐园",
+		"navigationBarBackgroundColor": "#F8F8F8",
+		"backgroundColor": "#F8F8F8"
+	}
+}
