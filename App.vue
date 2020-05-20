@@ -16,7 +16,9 @@
 	@import 'colorui/main.css';
 	@import 'colorui/icon.css';
 	/*每个页面公共css */
-	
+	image{
+		background-color: #e0e0e0;
+	}
 	page {
 		font-family: PingFang-SC-Medium;
 		background-color: #f1f1f1;

@@ -14,7 +14,7 @@
 					</view>
 					<view class="name">联系人：{{ contact.name }}</view>
 				</view>
-				<image src="/static/abuotphone.png" mode="aspectFit"></image>
+				<image style="background-color: transparent;" src="/static/abuotphone.png" mode="aspectFit"></image>
 			</view>
 		</view>
 		

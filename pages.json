@@ -31,6 +31,10 @@
             "path" : "pages/index/goodsDetail",
             "style" : {}
         }
+        ,{
+            "path" : "pages/case/case",
+            "style" : {}
+        }
     ],
 	"tabBar": {
 		"color": "#2C405A",
@@ -43,9 +47,14 @@
 		}, {
 			"iconPath": "static/logo.png",
 			"selectedIconPath": "static/logo.png",
+			"pagePath": "pages/case/case",
+			"text":"客户案例"
+		},{
+			"iconPath": "static/logo.png",
+			"selectedIconPath": "static/logo.png",
 			"pagePath": "pages/my/my",
 			"text":"我的"
-		}]
+		} ]
 	},
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

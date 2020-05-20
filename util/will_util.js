@@ -24,7 +24,8 @@ Vue.prototype.checkLogin = function() {
 
 }
 Vue.prototype.getUserId = function() { 
-	return uni.getStorageSync('user_mark_id') || ''
+	// return 'ocNWt4hn2b0sDC-K4LSOvYVUDikM'
+	return uni.getStorageSync('openId') || ''
 }
 // 请求
 Vue.prototype.request = function(obj) {

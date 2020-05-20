@@ -1,7 +1,7 @@
 <template>
 	<view class="indexView px20">
 		<swiper class="screen-swiper square-dot radius" :indicator-dots="true" :autoplay="true">
-			<swiper-item v-for="(item, index) in swiperList" class="radius" :key="index"><image :src="item" mode="aspectFill"></image></swiper-item>
+			<swiper-item v-for="(item, index) in swiperList" class="radius" :key="index"><image :src="item.pic" mode="aspectFill"></image></swiper-item>
 		</swiper>
 
 		<view class="categoryList  bg-white radius flex">
@@ -13,18 +13,18 @@
 
 		<view class="hotgoods bg-white radius">
 			<view class="hot_tit">
-				<image class="bgimg" src="/static/hotgoods.png" mode=""></image>
+				<image style="background-color: transparent;" class="bgimg" src="/static/hotgoods.png" mode=""></image>
 				精品展示
 			</view>
 			<view class="listbox  flex justify-between flex-wrap">
-				<view @click="gotoDetail(item.id)" class="item" v-for="(item, index) in hootGoods" :key="index">
-					<image :src="item.picture" style="border-radius: 14rpx;" mode="widthFix"></image>
-					<view class="title textov2">{{ item.name }}</view>
+				<view @click="gotoDetail(item.uuid)" class="item" v-for="(item, index) in hootGoods" :key="index">
+					<image :src="item.homepage" style="border-radius: 14rpx; " mode="aspectFill"></image>
+					<view class="title textov2">{{ item.text }}</view>
 					<view class="moneybox flex justify-between align-center text-red">
-						<view class="money flex align-center">
+						<!-- <view class="money flex align-center">
 							<text>￥</text>
 							{{ item.price }}
-						</view>
+						</view> -->
 					</view>
 				</view>
 			</view>
@@ -36,17 +36,49 @@
 export default {
 	data() {
 		return {
-			swiperList: ['/static/banner.png', '/static/banner.png'],
-			categoryList: new Array(8).fill({ name: '分类名字', id: 'id1', icon: '/static/logo.png' }),
-			hootGoods: [
-				{ picture: '/static/logo.png', name: '热门1', price: 100, saleNum: 999, id: 1 },
-				{ picture: '/static/logo.png', name: '热门1', price: 100, saleNum: 999, id: 1 },
-				{ picture: '/static/logo.png', name: '热门1', price: 100, saleNum: 999, id: 1 }
-			]
+			swiperList: [],
+			categoryList: new Array(8).fill({ name: '分类名字', id: 'id1', icon: '' }),
+			hootGoods: []
 		};
 	},
-	onLoad() {},
+	onLoad() {
+		this.getBannerList();
+		this.getGoodsList();
+	},
 	methods: {
+		getGoodsList() {
+			this.request({
+				url: '/appCommodity/getActive',
+				data: {
+					active: 1
+				},
+				success: res => {
+					console.log('goods', res);
+					if (res.data.returnCode === 1) {
+						res.data.list = res.data.list.map(i => {
+							i.homepage = this.imgUrl + i.homepage;
+							return i;
+						});
+						this.hootGoods = res.data.list;
+					}
+				}
+			});
+		},
+		getBannerList() {
+			this.request({
+				url: '/appBackground/getBackgroundlist',
+				success: res => {
+					console.log('banner', res);
+					if (res.data.returnCode === 1) {
+						res.data.list = res.data.list.map(i => {
+							i.pic = this.imgUrl + i.pic;
+							return i;
+						});
+						this.swiperList = res.data.list;
+					}
+				}
+			});
+		},
 		gotoDetail(id) {
 			uni.navigateTo({
 				url: '/pages/index/goodsDetail?goodsType=1&goodsId=' + id
