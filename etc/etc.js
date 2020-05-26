@@ -1,9 +1,10 @@
 import Vue from 'vue' 
 
 
-var imgUrl1 = 'http://249c88c713.zicp.vip/'
-var imgUrl2 ='praise/uploadImg/basic/slide/'
-Vue.prototype.imgUrl = imgUrl1 + imgUrl2
+// var imgUrl1 = 'http://249c88c713.zicp.vip/'
+// var imgUrl2 ='praise/uploadImg/basic/slide/'
+// Vue.prototype.imgUrl = imgUrl1 + imgUrl2 
+Vue.prototype.imgUrl =  'http://249c88c713.zicp.vip/shen'
 
 // #ifdef H5
 Vue.prototype.apiUrl = '/h5api'

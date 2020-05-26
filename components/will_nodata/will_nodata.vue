@@ -5,14 +5,14 @@
 			mode="widthFix"
 			class="icon"
 		></image>
-		<view class="tittle">{{tittle?tittle:'暂无数据'}}</view>
+		<view class="tittle">{{ tittle ? tittle : '暂无数据' }}</view>
 	</view>
 </template>
 
 <script>
 export default {
-	props:{
-		tittle:{
+	props: {
+		tittle: {
 			type: String
 		}
 	},
@@ -23,15 +23,19 @@ export default {
 </script>
 
 <style lang="less">
+
 .nodataBox {
 	text-align: center;
 	font-size: 32upx;
 	padding-top: 30upx;
 	color: #333;
-	.icon{
+	image {
+		background-color: transparent;
+	}
+	.icon {
 		width: 300upx;
 	}
-	.tittle{
+	.tittle {
 		margin-top: 30upx;
 	}
 }

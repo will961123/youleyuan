@@ -39,12 +39,12 @@
 					收藏
 				</view>
 			</view>
-			<view @click="showAddCommitFlag = true" class="item commit flex align-center justify-center">
+			<view @click="showAddCommit" class="item commit flex align-center justify-center">
 				<image src="/static/commit.png" mode="aspectFit"></image>
 				留言
 			</view>
 			<view class="item search flex align-center justify-center">
-				<button open-type="share" >分享</button>
+				<button open-type="share">分享</button>
 				<image src="/static/search.png" mode="aspectFit"></image>
 				分享
 			</view>
@@ -58,7 +58,7 @@
 			<view class="_mcMain bg-white">
 				<image @click="showAddCommitFlag = false" src="/static/delect.png" class="close" mode="aspectFit"></image>
 				<textarea value="" placeholder="请输入留言" />
-				<input type="text" placeholder="请输入联系方式" value="" />
+				<!-- <input type="text" placeholder="请输入联系方式" v-model="phone" disabled="" /> -->
 				<button class="btn cu-btn">提交</button>
 			</view>
 		</view>
@@ -69,6 +69,7 @@
 export default {
 	data() {
 		return {
+			phone:'',
 			showAddCommitFlag: false,
 			swiperList: [],
 			goodsId: '',
@@ -97,9 +98,75 @@ export default {
 			this.goodsId = options.goodsId;
 			this.getGoodsInfo();
 		}
+		this.saveFooter();
 	},
 	methods: {
-		changeLike(type) {
+		showAddCommit(){
+			let clientopenid = this.getUserId();
+			let phone = uni.getStorageSync('phone')
+			this.phone = phone
+			if(!clientopenid){
+				uni.showModal({
+					title: '登录',
+					content: '请先登录',
+					success: res => {
+						if (res.confirm) {
+							uni.switchTab({
+								url: '/pages/my/my'
+							});
+						}
+					}
+				});
+				return false;
+			}
+			if(!phone){
+				uni.showModal({
+					title: '登录',
+					content: '请授权手机号',
+					success: res => {
+						if (res.confirm) {
+							uni.switchTab({
+								url: '/pages/my/my'
+							});
+						}
+					}
+				});
+				return false;
+			}
+			this.showAddCommitFlag = true
+		},
+		saveFooter() {
+			let clientopenid = this.getUserId();
+			if (!clientopenid) {
+				return false;
+			}
+			this.request({
+				url: '/appTrack/saveTrack',
+				data: {
+					commuuid: this.goodsId,
+					clientopenid: clientopenid
+				},
+				success: res => {
+					console.log('足迹', res);
+				}
+			});
+		},
+		changeLike(type) { 
+			let clientopenid =  this.getUserId()
+			if (!clientopenid) {
+				uni.showModal({
+					title: '登录',
+					content: '请先登录',
+					success: res => {
+						if (res.confirm) {
+							uni.switchTab({
+								url: '/pages/my/my'
+							});
+						}
+					}
+				});
+				return false;
+			}
 			this.showLoading();
 			let url = '/appCollect/saveCollect';
 			if (!type) {
@@ -109,7 +176,7 @@ export default {
 				url,
 				data: {
 					commuuid: this.goodsId,
-					clientopenid: this.getUserId()
+					clientopenid: clientopenid
 				},
 				success: res => {
 					uni.hideLoading();
@@ -131,10 +198,10 @@ export default {
 				success: res => {
 					uni.hideLoading();
 					console.log('goodsInfo', res);
-					res.data.list = res.data.list.map(i=>{
-						i.pic = this.imgUrl +i.pic
-						return i
-					})
+					res.data.list = res.data.list.map(i => {
+						i.pic = this.imgUrl + i.pic;
+						return i;
+					});
 					this.swiperList = res.data.list;
 					this.$set(this.goodsInfo, 'parameter', res.data.list2);
 					this.$set(this.goodsInfo, 'like', res.data.obj);
@@ -211,7 +278,7 @@ export default {
 				position: absolute;
 				left: 0;
 				top: 0;
-				opacity: 0; 
+				opacity: 0;
 			}
 		}
 		.like,

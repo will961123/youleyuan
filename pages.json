@@ -10,51 +10,71 @@
 			"style": {
 				"navigationBarTitleText": "我的"
 			}
+		}, {
+			"path": "pages/my/myCollection",
+			"style": {
+				"navigationBarTitleText": "收藏"
+			}
+		}, {
+			"path": "pages/my/myFooter",
+			"style": {
+				"navigationBarTitleText": "足迹"
+			}
+		}, {
+			"path": "pages/my/feedBack",
+			"style": {
+				"navigationBarTitleText": "意见反馈"
+			}
+		}, {
+			"path": "pages/my/aboutUs",
+			"style": {
+				"navigationBarTitleText": "关于我们"
+			}
+		}, {
+			"path": "pages/index/goodsDetail",
+			"style": {
+				"navigationBarTitleText": "详情"
+			}
+		}, {
+			"path": "pages/case/case",
+			"style": {
+				"navigationBarTitleText": "客户案例"
+			}
+		}, {
+			"path": "pages/category/category",
+			"style": {
+				"navigationBarTitleText": "分类" 
+			}
 		}
 	    ,{
-            "path" : "pages/my/myCollection",
-            "style" : {}
-        }
-        ,{
-            "path" : "pages/my/myFooter",
-            "style" : {}
-        }
-        ,{
-            "path" : "pages/my/feedBack",
-            "style" : {}
-        }
-        ,{
-            "path" : "pages/my/aboutUs",
-            "style" : {}
-        }
-        ,{
-            "path" : "pages/index/goodsDetail",
-            "style" : {}
-        }
-        ,{
-            "path" : "pages/case/case",
+            "path" : "pages/category/goodsList",
             "style" : {}
         }
     ],
 	"tabBar": {
 		"color": "#2C405A",
-		"selectedColor": "#007AFF",
+		"selectedColor": "#ff6a63",
 		"list": [{
-			"iconPath": "static/logo.png",
-			"selectedIconPath": "static/logo.png",
+			"iconPath": "static/index1.png",
+			"selectedIconPath": "static/index.png",
 			"pagePath": "pages/index/index",
-			"text":"首页"
+			"text": "首页"
 		}, {
-			"iconPath": "static/logo.png",
-			"selectedIconPath": "static/logo.png",
+			"iconPath": "static/category1.png",
+			"selectedIconPath": "static/category.png",
+			"pagePath": "pages/category/category",
+			"text": "分类"
+		}, {
+			"iconPath": "static/anli1.png",
+			"selectedIconPath": "static/anli.png",
 			"pagePath": "pages/case/case",
-			"text":"客户案例"
-		},{
-			"iconPath": "static/logo.png",
-			"selectedIconPath": "static/logo.png",
+			"text": "客户案例"
+		}, {
+			"iconPath": "static/my1.png",
+			"selectedIconPath": "static/my.png",
 			"pagePath": "pages/my/my",
-			"text":"我的"
-		} ]
+			"text": "我的"
+		}]
 	},
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

@@ -19,8 +19,11 @@
 			<view class="listbox  flex justify-between flex-wrap">
 				<view @click="gotoDetail(item.uuid)" class="item" v-for="(item, index) in hootGoods" :key="index">
 					<image :src="item.homepage" style="border-radius: 14rpx; " mode="aspectFill"></image>
-					<view class="title textov2">{{ item.text }}</view>
+					<view class="title textov2">{{ item.title }}</view>
 					<view class="moneybox flex justify-between align-center text-red">
+						<view class="text-gray textov1   "> 
+							{{ item.text }} 
+						</view>
 						<!-- <view class="money flex align-center">
 							<text>￥</text>
 							{{ item.price }}

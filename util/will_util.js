@@ -10,9 +10,9 @@ Vue.prototype.isLoad = function() {
 }
 Vue.prototype.checkLogin = function() {
 	return new Promise((reslove, reject) => {
-		if (uni.getStorageSync('user_mark_id')) {
+		if (uni.getStorageSync('openId')) {
 			reslove()
-			console.log('已登录')
+			console.log('已登录') 
 		} else {
 			reject()
 			console.log('未登录')
@@ -23,9 +23,14 @@ Vue.prototype.checkLogin = function() {
 	})
 
 }
-Vue.prototype.getUserId = function() { 
-	// return 'ocNWt4hn2b0sDC-K4LSOvYVUDikM'
+Vue.prototype.getUserId = function() {
+	// #ifdef H5
+	return 'ocNWt4hn2b0sDC-K4LSOvYVUDikM'  
+	// #endif
+	// #ifndef H5
 	return uni.getStorageSync('openId') || ''
+	// #endif
+
 }
 // 请求
 Vue.prototype.request = function(obj) {

@@ -1,5 +1,5 @@
 <template>
-	<view class="fadeback bg-white">
+	<view class="fadeback bg-white"> 
 		<textarea v-model="fadeback" placeholder="请输入反馈内容和联系方式" />
 		<button @click="saveFadeback" class="btn cu-btn text-white">提交</button>
 	</view>
@@ -15,21 +15,39 @@ export default {
 	onLoad() {},
 	methods: {
 		saveFadeback() {
+			let phone = uni.getStorageSync('phone')
+			if(!phone){
+				uni.showModal({
+					title: '登录',
+					content: '请授权手机号',
+					success: res => {
+						if (res.confirm) {
+							uni.switchTab({
+								url: '/pages/my/my'
+							});
+						}
+					}
+				});
+				return false;
+			}
 			if (!this.fadeback) {
 				this.showToast('请输入反馈内容');
-				return;
+				return false;
 			}
-			return
+			 
 			this.showLoading();
 			this.request({
-				url: '/',
+				url: '/appFeedback/saveFeedback',
 				data: {
-					fadeback: this.fadeback
+					text: this.fadeback,
+					phone:phone
 				},
 				success: res => {
+					console.log('fadeback',res)
 					uni.hideLoading();
 					if (res.data.returnCode === 1) {
 						this.showToast('提交成功');
+						this.fadeback =''
 					} else {
 						this.showToast(res.data.returnStr);
 					}

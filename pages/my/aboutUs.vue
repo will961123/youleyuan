@@ -1,26 +1,11 @@
 <template>
 	<view class="aboutUs">
-		<view class="bg-img"><image src="/static/banner.png" mode="aspectFill"></image></view>
-		<view class="item bg-white">
-			<view class="tit">公司简介</view>
-			<view class="main">{{ aboutUs.content }}</view>
+		<view class="titBox   bg-white">
+			<view @click="selectIdx = index" v-for="(item, index) in list" :key="index" :class="selectIdx === index ? 'item select' : 'item'">{{ item.title }}</view>
 		</view>
-		<view class="item bg-white">
-			<view class="tit">联系方式</view>
-			<view class="main flex align-center justify-between">
-				<view>
-					<view class="phone flex align-center justify-between">
-						<text>电话：{{ contact.phone }}</text> 
-					</view>
-					<view class="name">联系人：{{ contact.name }}</view>
-				</view>
-				<image style="background-color: transparent;" src="/static/abuotphone.png" mode="aspectFit"></image>
-			</view>
+		<view class="richText">
+			<rich-text v-if="list.length>0" :nodes="list[selectIdx].text"></rich-text>
 		</view>
-		
-		
-		
-		<button v-if="contact.phone" @click="call(contact.phone)" class="btn cu-btn">拨打电话</button>
 	</view>
 </template>
 
@@ -28,48 +13,34 @@
 export default {
 	data() {
 		return {
-			aboutUs: {
-				content: '公司简介公司简介公司简介公司简介公司简介'
-			},
-			contact: {
-				phone: '123456',
-				name: 'name'
-			}
+			list: [],
+			selectIdx: 0
 		};
 	},
 	onLoad() {
-		// this.getAboutUs();
-		// this.findContact()
+		this.getAboutUs();
 	},
 	methods: {
-		call(phoneNumber){
+		call(phoneNumber) {
 			uni.makePhoneCall({
 				phoneNumber
-			})
+			});
 		},
 		getAboutUs() {
 			this.showLoading();
 			this.request({
-				url: '',
+				url: '/appRegard/getRegard',
 				data: {},
 				success: res => {
 					console.log('关于我们', res);
 					uni.hideLoading();
-					if (res.data.errMsg === 'request:ok') {
-						this.aboutUs = res.data[0];
-					}
-				}
-			});
-		},
-
-		findContact() {
-			this.request({
-				url: '',
-				data: {},
-				success: res => {
-					console.log('联系方式', res);
 					if (res.data.returnCode === 1) {
-						this.contact = res.data.obj;
+						this.list = res.data.list;
+						this.list = this.list.map(i=>{
+							i.text = i.text.replace(/\<img/gi,'<img style="width:100%;height:auto"');
+							console.log(i)
+							return i
+						})
 					}
 				}
 			});
@@ -81,50 +52,39 @@ export default {
 <style lang="scss">
 .aboutUs {
 	padding-bottom: 40rpx;
-	.bg-img {
+	.titBox {
+		white-space: nowrap;
+		overflow-x: auto;
+		height: 40px;
 		width: 100%;
-		height: 200px;
-		& > image {
-			width: 100%;
-			height: 100%;
-		}
-	}
-	.item {
-		margin-bottom: 10px;
-		padding: 0 30rpx 0 30rpx;
-		font-size: 26rpx; 
-		.tit {
-			font-size: 28rpx;
-			letter-spacing: 1rpx;
-			color: #0d0d0d;
-			line-height: 112rpx;
-			border-bottom: 1rpx solid #ededed;
-		}
-		.main { 
-			padding: 30rpx 0;
-			letter-spacing: 1rpx;
-			line-height: 1.8em;
-			color: #999999;
-			& > image {
+		.item {
+			display: inline-block;
+			position: relative;
+			line-height: 40px;
+			font-weight: 700;
+			font-size: 24rpx;
+			margin: 0 20rpx;
+			&::after {
+				position: absolute;
+				left: 50%;
+				bottom: 0;
 				width: 40rpx;
-				height: 40rpx;
+				margin-left: -20rpx;
+				content: '';
+				height: 4px;
+				border-radius: 2px;
+			}
+			&.select {
+				font-size: 28rpx;
+				color: #e54d42;
+				&::after {
+					background-color: #e54d42;
+				}
 			}
 		}
 	}
-	
-	.btn {
-		font-size: 16px;
-		width: 200px;
-		text-align: center;
-		height: 44px;
-		line-height: 44px;
-		color: #fff;
-		background-image: linear-gradient(-90deg, #ff585f 0%, #ff826a 100%);
-		box-shadow: 0px 8px 20px 0px rgba(255, 25, 25, 0.5);
-		border-radius: 22px; 
-		display: block;
-		margin: 0 auto;
-		margin-top: 60rpx;
+	.richText{
+		margin-top: 8px;
 	}
 }
 </style>
