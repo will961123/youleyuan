@@ -4,15 +4,15 @@ import Vue from 'vue'
 // var imgUrl1 = 'http://249c88c713.zicp.vip/'
 // var imgUrl2 ='praise/uploadImg/basic/slide/'
 // Vue.prototype.imgUrl = imgUrl1 + imgUrl2 
-Vue.prototype.imgUrl =  'http://249c88c713.zicp.vip/shen'
+Vue.prototype.imgUrl =  'https://xcx.youle598.com/shen'
 
 // #ifdef H5
 Vue.prototype.apiUrl = '/h5api'
 Vue.prototype.uploadUrl = '/h5upload'
 // #endif
 // #ifndef H5
-Vue.prototype.apiUrl = 'http://249c88c713.zicp.vip/praise'
-Vue.prototype.uploadUrl = 'http://pan.1688qds.com'
+Vue.prototype.apiUrl = 'https://xcx.youle598.com/st'
+Vue.prototype.uploadUrl = ''
 // #endif
 
 

@@ -1,7 +1,7 @@
 <template>
 	<view class="aboutUs">
 		<view class="titBox   bg-white">
-			<view @click="selectIdx = index" v-for="(item, index) in list" :key="index" :class="selectIdx === index ? 'item select' : 'item'">{{ item.title }}</view>
+			<view @click="changeSelectIdx(index)" v-for="(item, index) in list" :key="index" :class="selectIdx === index ? 'item select' : 'item'">{{ item.title }}</view>
 		</view>
 		<view class="richText">
 			<rich-text v-if="list.length>0" :nodes="list[selectIdx].text"></rich-text>
@@ -20,7 +20,16 @@ export default {
 	onLoad() {
 		this.getAboutUs();
 	},
+	onShareAppMessage() {
+		return {
+			title: '关于我们',
+			path: '/pages/my/aboutUs?searchUserId=' + this.getUserId()
+		};
+	},
 	methods: {
+		changeSelectIdx(idx){
+			this.selectIdx = idx
+		},
 		call(phoneNumber) {
 			uni.makePhoneCall({
 				phoneNumber
@@ -37,7 +46,7 @@ export default {
 					if (res.data.returnCode === 1) {
 						this.list = res.data.list;
 						this.list = this.list.map(i=>{
-							i.text = i.text.replace(/\<img/gi,'<img style="width:100%;height:auto"');
+							i.text = i.text.replace(/\<img/gi,'<img style="width:100%;height:auto;display:block"');
 							console.log(i)
 							return i
 						})

@@ -1,10 +1,13 @@
 <template>
 	<view class="caseView">
 		<view class="titBox   bg-white">
-			<view @click="selectIdx = index" v-for="(item, index) in list" :key="index" :class="selectIdx === index ? 'item select' : 'item'">{{ item.title }}</view>
+			<view @click="changeSelectIdx(index)" v-for="(item, index) in list" :key="index" :class="selectIdx === index ? 'item select' : 'item'">{{ item.category }}</view>
 		</view>
-		<view class="richText">
-			<rich-text v-if="list.length>0" :nodes="list[selectIdx].text"></rich-text>
+		<view v-if="list.length > 0" class="richText bg-white">
+			<view @click="gotoCaseDetail(item.uuid)" :key="index" v-for="(item, index) in list[selectIdx].list" class="item">
+				<view class="imgBox"><image :src="item.pic" mode="aspectFill"></image></view>
+				<view class="tit text-center">{{ item.title }}</view>
+			</view> 
 		</view>
 	</view>
 </template>
@@ -20,7 +23,21 @@ export default {
 	onLoad() {
 		this.getCase();
 	},
-	methods: { 
+	onShareAppMessage() {
+		return {
+			title: '客户案例',
+			path: '/pages/case/case?searchUserId=' + this.getUserId()
+		};
+	},
+	methods: {
+		gotoCaseDetail(caseId) {
+			uni.navigateTo({
+				url: '/pages/case/caseDetail?caseId=' + caseId
+			});
+		},
+		changeSelectIdx(idx) {
+			this.selectIdx = idx;
+		},
 		getCase() {
 			this.showLoading();
 			this.request({
@@ -31,11 +48,14 @@ export default {
 					uni.hideLoading();
 					if (res.data.returnCode === 1) {
 						this.list = res.data.list;
-						this.list = this.list.map(i=>{
-							i.text = i.text.replace(/\<img/gi,'<img style="width:100%;height:auto"');
-							console.log(i)
-							return i
-						})
+						this.list = this.list.map(i => {
+							i.list = i.list.map(i => {
+								i.pic = this.imgUrl + i.pic;
+								i.text = i.text.replace(/\<img/gi, '<img style="width:100%;height:auto"');
+								return i;
+							});
+							return i;
+						});
 					}
 				}
 			});
@@ -78,8 +98,35 @@ export default {
 			}
 		}
 	}
-	.richText{
+	.richText {
 		margin-top: 8px;
+		padding: 20rpx;
+		overflow: hidden;
+		.item {
+			width: calc(50% - 10rpx);
+			margin-right: 20rpx;
+			margin-bottom: 20px;
+			float: left;
+			&:nth-child(2n) {
+				margin-right: 0;
+			}
+			.imgBox {
+				width: 100%;
+				height: 298rpx;
+				border: 1rpx solid #ededed;
+				padding: 3px;
+				display: inline-block;
+				& > image {
+					width: 100%;
+					height: 100%;
+				}
+			}
+			.tit {
+				font-size: 24rpx;
+				color: #000;
+				margin-top: 4px;
+			}
+		}
 	}
 }
 </style>

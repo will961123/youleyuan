@@ -50,6 +50,22 @@
             "path" : "pages/category/goodsList",
             "style" : {}
         }
+        ,{
+            "path" : "pages/my/joinUs",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/index/newsDetail",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/case/caseDetail",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/index/search",
+            "style" : {}
+        }
     ],
 	"tabBar": {
 		"color": "#2C405A",
@@ -78,7 +94,7 @@
 	},
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
-		"navigationBarTitleText": "游乐园",
+		"navigationBarTitleText": "神童游乐设备",
 		"navigationBarBackgroundColor": "#F8F8F8",
 		"backgroundColor": "#F8F8F8"
 	}

@@ -26,7 +26,7 @@
 		<view v-if="showPhone" class="mc">
 			<view class="_mcMain bg-white">
 				<image @click="showPhone = false" src="/static/delect.png" class="close" mode="aspectFit"></image>
-				<input disabled="true" type="text" placeholder="请输入点击授权手机号" />
+				<!-- <input disabled="true" type="text" placeholder="请输入点击授权手机号" /> -->
 				<button open-type="getPhoneNumber" @getphonenumber="getphonenumber" class="btn cu-btn">获取手机号</button>
 			</view>
 		</view>
@@ -87,6 +87,12 @@ export default {
 		if (openId && !phone) {
 			this.showPhone = true;
 		}
+	},
+	onShareAppMessage() {
+		return {
+			title: '我的',
+			path: '/pages/my/my?searchUserId=' + this.getUserId()  
+		};
 	},
 	methods: {
 		getphonenumber(e) {
@@ -338,7 +344,7 @@ image {
 				border-radius: 22px;
 				display: block;
 				margin: 0 auto;
-				margin-top: 24px;
+				margin-top: 44px;
 			}
 		}
 	}

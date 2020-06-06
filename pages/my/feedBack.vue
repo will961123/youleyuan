@@ -13,6 +13,12 @@ export default {
 		};
 	},
 	onLoad() {},
+	onShareAppMessage() {
+		return {
+			title: '意见反馈',
+			path: '/pages/my/feedBack?searchUserId=' + this.getUserId()
+		};
+	},
 	methods: {
 		saveFadeback() {
 			let phone = uni.getStorageSync('phone')
@@ -39,6 +45,7 @@ export default {
 			this.request({
 				url: '/appFeedback/saveFeedback',
 				data: {
+					wxopenid:this.getUserId(),
 					text: this.fadeback,
 					phone:phone
 				},

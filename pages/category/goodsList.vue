@@ -5,15 +5,14 @@
 				<image style="background-color: transparent;" class="bgimg" src="/static/hotgoods.png" mode=""></image>
 				分类展示
 			</view>
-			<view class="listbox  flex justify-between flex-wrap">
+			<view v-if="list.length>0" class="listbox  flex justify-between flex-wrap">
 				<view @click="gotoDetail(item.uuid)" class="item" v-for="(item, index) in list" :key="index">
 					<image :src="item.homepage" style="border-radius: 14rpx; " mode="aspectFill"></image>
 					<view class="title textov2">{{ item.title }}</view>
-					<view class="moneybox flex justify-between align-center text-red">
-						<view class="text-gray textov1   ">{{ item.text }}</view>
-					</view>
+					<view class="moneybox flex justify-between align-center text-red"><!-- <view class="text-gray textov1   ">{{ item.text }}</view> --></view>
 				</view>
 			</view>
+			<will-nodata v-else tittle="暂无数据"></will-nodata>
 		</view>
 	</view>
 </template>
@@ -23,12 +22,18 @@ export default {
 	data() {
 		return {
 			categoryId: '',
-			list:[]
+			list: []
 		};
 	},
 	onLoad(options) {
 		options.categoryId ? (this.categoryId = options.categoryId) : '';
 		this.categoryId && this.getList();
+	},
+	onShareAppMessage() {
+		return {
+			title: '分类',
+			path: '/pages/category/goodsList?searchUserId=' + this.getUserId() + '&categoryId=' + this.categoryId
+		};
 	},
 	methods: {
 		gotoDetail(id) {
@@ -37,14 +42,14 @@ export default {
 			});
 		},
 		getList() {
-			this.showLoading()
+			this.showLoading();
 			this.request({
 				url: '/appCommodity/getcomlist',
 				data: {
 					menuid: this.categoryId
 				},
 				success: res => {
-					uni.hideLoading()
+					uni.hideLoading();
 					console.log('list', res);
 					if (res.data.returnCode === 1) {
 						res.data.list = res.data.list.map(i => {
@@ -61,11 +66,11 @@ export default {
 </script>
 
 <style lang="scss">
-.goodsListView { 
+.goodsListView {
 	padding-bottom: 40rpx;
 	.hotgoods {
 		padding: 0 30rpx;
-		padding-top: 15px; 
+		padding-top: 15px;
 		min-height: 100vh;
 		.hot_tit {
 			margin: 0 auto;

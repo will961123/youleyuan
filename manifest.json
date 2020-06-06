@@ -77,7 +77,7 @@
             "disableHostCheck" : true,
             "proxy" : {
                 "/h5api" : {
-                    "target" : "http://249c88c713.zicp.vip/praise",
+                    "target" : "https://xcx.youle598.com/st",
                     "changeOrigin" : true,
                     "secure" : false,
                     "pathRewrite" : {
@@ -85,7 +85,7 @@
                     }
                 },
                 "/h5upload" : {
-                    "target" : "http://pan.1688qds.com",
+                    "target" : "https://xcx.youle598.com",
                     "changeOrigin" : true,
                     "secure" : false,
                     "pathRewrite" : {

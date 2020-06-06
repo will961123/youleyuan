@@ -1,49 +1,49 @@
 <template>
 	<view class="detailView">
 		<swiper class="screen-swiper square-dot radius" :indicator-dots="true" :autoplay="true">
-			<swiper-item v-for="(item, index) in swiperList" class="radius" :key="index"><image :src="item.pic" mode="aspectFill"></image></swiper-item>
+			<swiper-item v-for="(item, index) in swiperList" class="radius" :key="index"><image :src="item" mode="aspectFill"></image></swiper-item>
 		</swiper>
 
-		<view class="titBox ">产品参数</view>
+		<!-- <view class="titBox ">产品参数</view>
 		<view class="parameterBox bg-white">
 			<view v-for="(item, index) in goodsInfo.parameter" :key="index" class="list flex">
 				<view class="key">{{ item.parname }}</view>
 				<view class="val">{{ item.partext }}</view>
 			</view>
-		</view>
+		</view> -->
 
-		<view class="titBox ">盈利预估(受地域影响，以下数据仅供参考)</view>
+		<!-- <view class="titBox ">盈利预估(受地域影响，以下数据仅供参考)</view>
 		<view class="profitBox parameterBox bg-white">
 			<view v-for="(item, index) in goodsInfo.profit" :key="index" class="list flex">
 				<view class="key">{{ item.key }}</view>
 				<view class="val">{{ item.val }}</view>
 			</view>
-		</view>
+		</view> -->
 
 		<view class="titBox ">产品介绍</view>
-		<view class="detailBox bg-white">
-			这里放富文本
-			<image src="" mode=""></image>
-			<image src="" mode=""></image>
-			<image src="" mode=""></image>
+		<view v-if="goodsInfo.videoSrc" class="videoBox">
+			<video object-fit="cover" :src="goodsInfo.videoSrc" controls></video>
+			<!-- 			<video object-fit="cover" src="http://data.vod.itc.cn/?new=/63/77/40r0UDo8pmrZC3OPo3q2RF.mp4&vid=103479475&plat=17&mkey=oN0oDPsqaRx67_9m2cgDZPNuYVNVD0UG&ch=null&user=api&uid=1608272337357415&SOHUSVP=lg14XbqHWvxmpskUfi3zCQg0SW6oocozV2YB5CrfiCs&pt=1&prod=56&pg=1&eye=0&cv=1.0.0&qd=68000&src=11050001&ca=4&cateCode=300&_c=1&appid=tv" controls></video> -->
 		</view>
+		
+		<view class="detailBox bg-white"><rich-text v-if="goodsInfo.ritchText" :nodes="goodsInfo.ritchText"></rich-text></view>
 
-		<view class="menuBox bg-green flex">
+		<view class="menuBox bg-cyan flex">
 			<view class="item like flex align-center justify-center">
 				<view @click="changeLike(false)" class="flex align-center justify-center" v-if="goodsInfo.like">
 					<image src="/static/like.png" mode="aspectFit"></image>
-					取消
+					取消收藏
 				</view>
 				<view @click="changeLike(true)" class="flex align-center justify-center" v-else>
 					<image src="/static/like0.png" mode="aspectFit"></image>
 					收藏
 				</view>
 			</view>
-			<view @click="showAddCommit" class="item commit flex align-center justify-center">
+			<!-- <view @click="showAddCommit" class="item commit flex align-center justify-center">
 				<image src="/static/commit.png" mode="aspectFit"></image>
 				留言
-			</view>
-			<view class="item search flex align-center justify-center">
+			</view> -->
+			<view class="item bg-black search flex align-center justify-center">
 				<button open-type="share">分享</button>
 				<image src="/static/search.png" mode="aspectFit"></image>
 				分享
@@ -69,11 +69,13 @@
 export default {
 	data() {
 		return {
-			phone:'',
+			phone: '',
 			showAddCommitFlag: false,
 			swiperList: [],
 			goodsId: '',
 			goodsInfo: {
+				videoSrc: '',
+				ritchText: '',
 				like: false,
 				parameter: [],
 				profit: [
@@ -99,13 +101,31 @@ export default {
 			this.getGoodsInfo();
 		}
 		this.saveFooter();
+		this.getPhone();
+	},
+	onShareAppMessage() {
+		return {
+			title: '商品详情',
+			path: '/pages/index/goodsDetail?searchUserId=' + this.getUserId() + '&goodsId=' + this.goodsId
+		};
 	},
 	methods: {
-		showAddCommit(){
+		getPhone() {
+			this.request({
+				url: '/appPhone/getPhone',
+				success: res => {
+					console.log('phone', res);
+					if (res.data.returnCode === 1) {
+						this.phone = res.data.obj;
+					}
+				}
+			});
+		},
+		showAddCommit() {
 			let clientopenid = this.getUserId();
-			let phone = uni.getStorageSync('phone')
-			this.phone = phone
-			if(!clientopenid){
+			let phone = uni.getStorageSync('phone');
+			this.phone = phone;
+			if (!clientopenid) {
 				uni.showModal({
 					title: '登录',
 					content: '请先登录',
@@ -119,7 +139,7 @@ export default {
 				});
 				return false;
 			}
-			if(!phone){
+			if (!phone) {
 				uni.showModal({
 					title: '登录',
 					content: '请授权手机号',
@@ -133,7 +153,7 @@ export default {
 				});
 				return false;
 			}
-			this.showAddCommitFlag = true
+			this.showAddCommitFlag = true;
 		},
 		saveFooter() {
 			let clientopenid = this.getUserId();
@@ -151,8 +171,8 @@ export default {
 				}
 			});
 		},
-		changeLike(type) { 
-			let clientopenid =  this.getUserId()
+		changeLike(type) {
+			let clientopenid = this.getUserId();
 			if (!clientopenid) {
 				uni.showModal({
 					title: '登录',
@@ -198,19 +218,33 @@ export default {
 				success: res => {
 					uni.hideLoading();
 					console.log('goodsInfo', res);
-					res.data.list = res.data.list.map(i => {
-						i.pic = this.imgUrl + i.pic;
-						return i;
-					});
-					this.swiperList = res.data.list;
-					this.$set(this.goodsInfo, 'parameter', res.data.list2);
+					// res.data.list = res.data.list.map(i => {
+					// 	i.pic = this.imgUrl + i.pic;
+					// 	return i;
+					// });
+					this.swiperList = res.data.obj2.piclis.split('^') 
+					this.swiperList = this.swiperList.map(i=>{
+						return this.imgUrl + i
+					})
+					// this.$set(this.goodsInfo, 'parameter', res.data.list2);
 					this.$set(this.goodsInfo, 'like', res.data.obj);
+					if (res.data.obj2 && res.data.obj2.video) {
+						this.$set(this.goodsInfo, 'videoSrc', this.imgUrl + res.data.obj2.video);
+					}
+					if (res.data.obj2 && res.data.obj2.text) {
+						res.data.obj2.text = res.data.obj2.text.replace(/\<img/gi,'<img style="width:100%;height:auto;display:block"')
+						this.$set(this.goodsInfo, 'ritchText', res.data.obj2.text);
+					}
 				}
 			});
 		},
 		call() {
+			if (!this.phone) {
+				this.showToast('管理员暂未设置电话!');
+				return false;
+			}
 			uni.makePhoneCall({
-				phoneNumber: '123'
+				phoneNumber: '' + this.phone
 			});
 		}
 	}
@@ -219,6 +253,7 @@ export default {
 
 <style lang="scss">
 .detailView {
+	padding-bottom: 40px;
 	.titBox {
 		height: 60rpx;
 		padding: 10rpx 30rpx 10rpx 50rpx;
@@ -250,6 +285,12 @@ export default {
 				margin-right: -1rpx;
 				border-right: 1rpx solid #ededed;
 			}
+		}
+	}
+	.videoBox {
+		width: 100%;
+		& > video {
+			width: 100%;
 		}
 	}
 	.detailBox {

@@ -1,11 +1,11 @@
 <template>
 	<view v-if="list.length > 0" class="listbox">
 		<view @click="gotoDetail(item.cuuid)" v-for="(item, index) in list" :key="index" class="item bg-white flex radius">
-			<image :src="item.homepage" mode="aspectFit"></image>
+			<image :src="item.homepage" mode="aspectFill"></image>
 			<view class="infoBox flex flex-direction justify-between">
 				<view class="title">{{ item.title }}</view>
 				<view class="moneyBox flex  align-center justify-between ">
-					<text class="text-gray textov1">{{ item.text }}</text>
+					<text class="text-gray textov1">{{ item.time }}</text>
 					<!-- 					<text class="text-red">￥{{ item.price }}</text> -->
 					<button @click.stop="del(item.cuuid)" class="btn cu-btn">取消收藏</button>
 				</view>
@@ -23,7 +23,7 @@ export default {
 			list: []
 		};
 	},
-	onLoad() {
+	onLoad() { 
 		this.checkLogin().then(
 			success => {
 				this.getList();
@@ -43,6 +43,12 @@ export default {
 				});
 			}
 		);
+	},
+	onShareAppMessage() {
+		return {
+			title: '首页',
+			path: '/pages/index/index?searchUserId=' + this.getUserId()
+		};
 	},
 	methods: {
 		gotoDetail(id) {
