@@ -2,7 +2,7 @@
 	<view>
 		<view v-if="list.length > 0">
 			<view class="titBox   bg-white">
-				<view @click="changeSelect(0, index)" v-for="(item, index) in list" :key="index" :class="nowSelect[0] === index ? 'item select' : 'item'">{{ item.One }}</view>
+				<view @click="changeSelect(0, index)" v-for="(item, index) in list" :key="index" :class="nowSelect[0] === index ? 'item select  ' : 'item  '">{{ item.One }}</view>
 			</view>
 			<view class="categoryView flex justify-between ">
 				<scroll-view class="VerticalNav nav bg-white" scroll-y scroll-with-animation>
@@ -71,13 +71,13 @@ export default {
 					if (res.data.returnCode === 1) {
 						this.list = res.data.list;
 						this.list = this.list.map(i => {
-							console.log(i.Two)
+							console.log(i.Two);
 							i.allGoodsList =
 								i.Two.length > 0 && i.Two && i.Two != null
 									? i.Two[i.Two.length - 1].shop && i.Two[i.Two.length - 1].shop != null
 										? i.Two[i.Two.length - 1].shop
 										: []
-									: []; 
+									: [];
 							i.allGoodsList = i.allGoodsList.map(i => {
 								i.homepage = this.imgUrl + i.homepage;
 								return i;
