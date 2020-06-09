@@ -335,7 +335,7 @@ export default {
 				position: absolute;
 				left: 0;
 				bottom: 0;
-				background-color: rgba(19, 86, 184, 0.5);
+				background-color: rgba(0, 0, 0, 0.4);
 				color: #fff;
 				
 			}

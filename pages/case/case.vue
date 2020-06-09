@@ -54,6 +54,7 @@ export default {
 								i.text = i.text.replace(/\<img/gi, '<img style="width:100%;height:auto"');
 								return i;
 							});
+							// i.list = i.list.concat(i.list)
 							return i;
 						});
 					}
@@ -103,12 +104,13 @@ export default {
 		padding: 20rpx;
 		overflow: hidden;
 		.item {
-			width: calc(50% - 10rpx);
-			margin-right: 20rpx;
+			width: calc(50% - 20rpx);
+			// margin-right: 20rpx;
 			margin-bottom: 20px;
 			float: left;
 			&:nth-child(2n) {
-				margin-right: 0;
+				// margin-right: 0;
+				float: right;
 			}
 			.imgBox {
 				width: 100%;

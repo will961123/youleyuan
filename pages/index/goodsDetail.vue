@@ -1,7 +1,7 @@
 <template>
 	<view class="detailView">
-		<swiper class="screen-swiper square-dot radius" :indicator-dots="true" :autoplay="true">
-			<swiper-item v-for="(item, index) in swiperList" class="radius" :key="index"><image :src="item" mode="aspectFill"></image></swiper-item>
+		<swiper style="height: 562rpx;" class="screen-swiper square-dot radius" :indicator-dots="true" :autoplay="true">
+			<swiper-item  style="height: 562rpx;" v-for="(item, index) in swiperList" class="radius" :key="index"><image :src="item" mode="scaleToFill"></image></swiper-item>
 		</swiper>
 
 		<!-- <view class="titBox ">产品参数</view>
@@ -29,13 +29,13 @@
 		<view class="detailBox bg-white"><rich-text v-if="goodsInfo.ritchText" :nodes="goodsInfo.ritchText"></rich-text></view>
 
 		<view class="menuBox bg-cyan flex">
-			<view class="item like flex align-center justify-center">
+			<view class="item bg-white like flex align-center justify-center">
 				<view @click="changeLike(false)" class="flex align-center justify-center" v-if="goodsInfo.like">
 					<image src="/static/like.png" mode="aspectFit"></image>
 					取消收藏
 				</view>
 				<view @click="changeLike(true)" class="flex align-center justify-center" v-else>
-					<image src="/static/like0.png" mode="aspectFit"></image>
+					<image src="/static/like3.png" mode="aspectFit"></image>
 					收藏
 				</view>
 			</view>
@@ -43,13 +43,13 @@
 				<image src="/static/commit.png" mode="aspectFit"></image>
 				留言
 			</view> -->
-			<view class="item bg-black search flex align-center justify-center">
+			<view class="item bg-white search flex align-center justify-center">
 				<button open-type="share">分享</button>
-				<image src="/static/search.png" mode="aspectFit"></image>
+				<image src="/static/search2.png" mode="aspectFit"></image>
 				分享
 			</view>
-			<view @click="call" class="item call bg-red flex align-center justify-center">
-				<image src="/static/call.png" mode="aspectFit"></image>
+			<view @click="call" class="item call bg-orange flex align-center justify-center">
+				<image src="/static/call2.png" mode="aspectFit"></image>
 				联系我们
 			</view>
 		</view>
@@ -295,7 +295,7 @@ export default {
 	}
 	.detailBox {
 		text-align: center;
-		padding: 20rpx 0 40rpx 0;
+		padding: 20rpx 25rpx 40rpx 25rpx;
 	}
 	.menuBox {
 		width: 100%;
@@ -326,10 +326,10 @@ export default {
 		.commit,
 		.search {
 			flex: 1;
-			border-right: 1rpx solid yellow;
+			border-right: 1rpx solid #ededed;
 		}
 		.call {
-			width: 32%;
+			width: 40%;
 		}
 	}
 	.mc {
