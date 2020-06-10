@@ -1,7 +1,7 @@
 <template>
 	<view class="detailView">
 		<swiper style="height: 562rpx;" class="screen-swiper square-dot radius" :indicator-dots="true" :autoplay="true">
-			<swiper-item  style="height: 562rpx;" v-for="(item, index) in swiperList" class="radius" :key="index"><image :src="item" mode="scaleToFill"></image></swiper-item>
+			<swiper-item style="height: 562rpx;" v-for="(item, index) in swiperList" class="radius" :key="index"><image :src="item" mode="scaleToFill"></image></swiper-item>
 		</swiper>
 
 		<!-- <view class="titBox ">产品参数</view>
@@ -25,12 +25,12 @@
 			<video object-fit="cover" :src="goodsInfo.videoSrc" controls></video>
 			<!-- 			<video object-fit="cover" src="http://data.vod.itc.cn/?new=/63/77/40r0UDo8pmrZC3OPo3q2RF.mp4&vid=103479475&plat=17&mkey=oN0oDPsqaRx67_9m2cgDZPNuYVNVD0UG&ch=null&user=api&uid=1608272337357415&SOHUSVP=lg14XbqHWvxmpskUfi3zCQg0SW6oocozV2YB5CrfiCs&pt=1&prod=56&pg=1&eye=0&cv=1.0.0&qd=68000&src=11050001&ca=4&cateCode=300&_c=1&appid=tv" controls></video> -->
 		</view>
-		
+
 		<view class="detailBox bg-white"><rich-text v-if="goodsInfo.ritchText" :nodes="goodsInfo.ritchText"></rich-text></view>
 
 		<view class="menuBox bg-cyan flex">
-			<view class="item bg-white like flex align-center justify-center">
-				<view @click="changeLike(false)" class="flex align-center justify-center" v-if="goodsInfo.like">
+			<view style="background-color: #DCDCDC" class="item  like flex align-center justify-center">
+				<view   @click="changeLike(false)" class="flex align-center justify-center" v-if="goodsInfo.like">
 					<image src="/static/like.png" mode="aspectFit"></image>
 					取消收藏
 				</view>
@@ -43,7 +43,7 @@
 				<image src="/static/commit.png" mode="aspectFit"></image>
 				留言
 			</view> -->
-			<view class="item bg-white search flex align-center justify-center">
+			<view style="background-color:#DCDCDC" class="item   search flex align-center justify-center">
 				<button open-type="share">分享</button>
 				<image src="/static/search2.png" mode="aspectFit"></image>
 				分享
@@ -222,17 +222,17 @@ export default {
 					// 	i.pic = this.imgUrl + i.pic;
 					// 	return i;
 					// });
-					this.swiperList = res.data.obj2.piclis.split('^') 
-					this.swiperList = this.swiperList.map(i=>{
-						return this.imgUrl + i
-					})
+					this.swiperList = res.data.obj2.piclis.split('^');
+					this.swiperList = this.swiperList.map(i => {
+						return this.imgUrl + i;
+					});
 					// this.$set(this.goodsInfo, 'parameter', res.data.list2);
 					this.$set(this.goodsInfo, 'like', res.data.obj);
 					if (res.data.obj2 && res.data.obj2.video) {
 						this.$set(this.goodsInfo, 'videoSrc', this.imgUrl + res.data.obj2.video);
 					}
 					if (res.data.obj2 && res.data.obj2.text) {
-						res.data.obj2.text = res.data.obj2.text.replace(/\<img/gi,'<img style="width:100%;height:auto;display:block"')
+						res.data.obj2.text = res.data.obj2.text.replace(/\<img/gi, '<img style="width:100%;height:auto;display:block"');
 						this.$set(this.goodsInfo, 'ritchText', res.data.obj2.text);
 					}
 				}
@@ -325,8 +325,9 @@ export default {
 		.like,
 		.commit,
 		.search {
+			color: #000;
 			flex: 1;
-			border-right: 1rpx solid #ededed;
+			border-right: 1rpx solid #ededed; 
 		}
 		.call {
 			width: 40%;
